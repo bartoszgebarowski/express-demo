@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+.FontSizeMedium {
+    font-size: 20px;
+}
+
+#Main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
