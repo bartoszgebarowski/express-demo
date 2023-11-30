@@ -7,10 +7,22 @@ import InputGroup from "react-bootstrap/InputGroup";
 import styles from "../styles/Form.module.css";
 import ResultsModal from "./ResultsModal";
 import { useState } from "react";
+import api from "../api/api";
 
 function SearchInterface() {
+  const [countryQuery, setCountryQuery] = useState();
+
+  const eventHandler = async (event) => {
+    setCountryQuery(event.target.value);
+  };
+
   const submitHandler = async (event) => {
     event.preventDefault();
+    api
+      .get(`${countryQuery}`)
+      .then((response) => console.log(response.data))
+      .catch((err) => console.log(err.response.status));
+
     handleShow();
   };
 
@@ -26,12 +38,17 @@ function SearchInterface() {
           <Col className={styles.MaxWidthMedium}>
             <Form>
               <InputGroup size="lg">
-                <Form.Control placeholder="Search..." aria-label="Search Bar" />
+                <Form.Control
+                  placeholder="Search..."
+                  aria-label="Search Bar"
+                  onChange={eventHandler}
+                />
                 <Button
                   type="submit"
                   variant="outline-primary"
                   id="submitButton"
                   onClick={submitHandler}
+                  aria-label="Submit button to submit user query"
                 >
                   <i className="fa-solid fa-magnifying-glass"></i>
                 </Button>
