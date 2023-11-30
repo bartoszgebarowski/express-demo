@@ -1,10 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 9001;
 const countryRoute = require("./routes/country.js");
 
+app.use(cors());
 app.use(express.json());
 
 app.listen(port, () => {
