@@ -27,8 +27,7 @@ function SearchInterface() {
     api
       .get(`${countryQuery}`)
       .then((response) => {
-        console.log(response.data);
-        setCountriesReceivedData(...response.data);
+        setCountriesReceivedData([...response.data]);
         setIsLoaded(true);
       })
       .catch((err) => setErrors(err.response.status, setIsLoaded(true)));
@@ -64,11 +63,12 @@ function SearchInterface() {
       <ResultsModal
         show={show}
         onClose={handleClose}
-        {...countriesReceivedData}
         isLoaded={isLoaded}
         setIsLoaded={setIsLoaded}
         errors={errors}
         setErrors={setErrors}
+        setCountriesReceivedData={setCountriesReceivedData}
+        countriesReceivedData={countriesReceivedData}
       />
     </>
   );

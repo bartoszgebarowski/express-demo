@@ -9,17 +9,12 @@ const ResultsModal = (props) => {
   const {
     show,
     onClose,
-    capital,
-    common_name,
-    flag,
-    flagDescription,
-    official_name,
-    population,
-    timezones,
     isLoaded,
     setIsLoaded,
+    setCountriesReceivedData,
     errors,
     setErrors,
+    countriesReceivedData,
   } = props;
 
   useEffect(() => {
@@ -27,10 +22,11 @@ const ResultsModal = (props) => {
       if (!show) {
         setIsLoaded(false);
         setErrors(false);
+        setCountriesReceivedData([]);
       }
     };
     handleUnmount();
-  }, [setIsLoaded, setErrors, show]);
+  }, [setIsLoaded, setErrors, setCountriesReceivedData, show]);
 
   return (
     <>
@@ -75,17 +71,44 @@ const ResultsModal = (props) => {
             )
           ) : (
             <>
-              <div className={modalStyles.FlagContainer}>
-                <img src={flag} alt={flagDescription} />
-              </div>
-              <div className="mt-2">Common Name : {common_name}</div>
-              <div className="mt-2">Official Name: {official_name}</div>
-              <div className="mt-2">Capital: {capital}</div>
-              <div className="mt-2">Population: {population}</div>
-              <div className="mt-2">Time zones: {timezones.join(" ")}</div>
-              <div className="mt-2">
-                Currency name: <span>Currency Symbol</span>
-              </div>
+              {countriesReceivedData.map((countryData) => {
+                return (
+                  <div key={countryData.official_name}>
+                    <div className={modalStyles.FlagContainer}>
+                      <img
+                        src={countryData.flag}
+                        alt={countryData.flagDescription}
+                      />
+                    </div>
+                    <div className="mt-2 fw-bold">
+                      Official name: {countryData.official_name}
+                    </div>
+                    <div className="mt-2">
+                      Common name: {countryData.common_name}
+                    </div>
+                    <div className="mt-2">Capital: {countryData.capital}</div>
+                    <div className="mt-2">
+                      Population: {countryData.population}
+                    </div>
+                    <div className="mt-2">
+                      Time zones: {countryData.timezones.join(" ")}
+                    </div>
+                    <div className="mt-2">
+                      Currency:
+                      <br />
+                      <span className="ms-2">
+                        name: {Object.values(countryData.currencies)[0].name}
+                      </span>
+                      <br />
+                      <span className="ms-2">
+                        symbol:{" "}
+                        {Object.values(countryData.currencies)[0].symbol}
+                      </span>
+                    </div>
+                    <hr></hr>
+                  </div>
+                );
+              })}
             </>
           )}
         </Modal.Body>
