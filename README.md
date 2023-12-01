@@ -1,16 +1,22 @@
 # Countries Demo
 
-Countries Demo is full-stack application that allows user to search
+Countries Demo is a proof-of-concept application which aims to provide a user-friendly interface to obtain information about countries
 
-The Countries Demo application consists of :
-1. Frontend interface, build on React for, which renders, process data about countries. It allows user to search for information on single or group of countries, based on input from the user
-2. Backend NodeJS server running Express which relies on REST Countries API to provide information about countries
+The Countries Demo application consists of the following:
+1. Frontend interface, built on React, renders process data about countries. It allows users to search for information on a single or group of countries based on input from the user
+2. Backend NodeJS server running Express, which relies on RESTcountries API to provide information about countries
+
+[Restcountries API address](https://restcountries.com/)
+[Frontend live address](https://react-countries-demo.onrender.com)
+[Backend live address](https://express-js-countries-demo.onrender.com)
 
 ## Usage
 
-Frontend desc
+For general purpose of this application Cors settings were set according to documentation by "Simple usage"
+[Cors package documentation](https://www.npmjs.com/package/cors?activeTab=readme). 
+For business projects, Cors settings should be configured to accept only specific requests
 
-To configure data received from backend, access `filterCountriesData.js` file
+To configure data received from backend, access `filterCountriesData.js` file.
 
 ### Run locally 
 
@@ -39,7 +45,9 @@ To configure data received from backend, access `filterCountriesData.js` file
 7. Configure your URL's
 8. Enter `npm start`
 
-### Deploy project
+### Deploy project on Render
+
+[Render website](https://render.com/)
 
 #### Backend
 
