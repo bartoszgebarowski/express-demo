@@ -16,6 +16,7 @@ function SearchInterface() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [errors, setErrors] = useState(false);
 
   const eventHandler = async (event) => {
     setCountryQuery(event.target.value);
@@ -30,7 +31,7 @@ function SearchInterface() {
         setCountriesReceivedData(...response.data);
         setIsLoaded(true);
       })
-      .catch((err) => console.log(err.response.status));
+      .catch((err) => setErrors(err.response.status, setIsLoaded(true)));
     handleShow();
   };
 
@@ -39,18 +40,18 @@ function SearchInterface() {
       <Container>
         <Row className="justify-content-center mt-4">
           <Col className={styles.MaxWidthMedium}>
-            <Form>
+            <Form onSubmit={submitHandler}>
               <InputGroup size="lg">
                 <Form.Control
                   placeholder="Search..."
                   aria-label="Search Bar"
                   onChange={eventHandler}
+                  required
                 />
                 <Button
                   type="submit"
                   variant="outline-primary"
                   id="submitButton"
-                  onClick={submitHandler}
                   aria-label="Submit button to submit user query"
                 >
                   <i className="fa-solid fa-magnifying-glass"></i>
@@ -66,6 +67,8 @@ function SearchInterface() {
         {...countriesReceivedData}
         isLoaded={isLoaded}
         setIsLoaded={setIsLoaded}
+        errors={errors}
+        setErrors={setErrors}
       />
     </>
   );

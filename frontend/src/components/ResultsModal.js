@@ -18,16 +18,19 @@ const ResultsModal = (props) => {
     timezones,
     isLoaded,
     setIsLoaded,
+    errors,
+    setErrors,
   } = props;
 
   useEffect(() => {
     const handleUnmount = () => {
       if (!show) {
         setIsLoaded(false);
+        setErrors(false);
       }
     };
     handleUnmount();
-  }, [setIsLoaded, show]);
+  }, [setIsLoaded, setErrors, show]);
 
   return (
     <>
@@ -37,9 +40,18 @@ const ResultsModal = (props) => {
         onHide={onClose}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        animation={false}
       >
         <Modal.Header className="text-center" closeButton>
-          <Modal.Title className="ms-auto">Search Results</Modal.Title>
+          <Modal.Title className="ms-auto">
+            {!isLoaded ? (
+              <>Processing query ...</>
+            ) : errors ? (
+              <>Error {errors}</>
+            ) : (
+              <>Search results</>
+            )}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {!isLoaded ? (
@@ -55,6 +67,12 @@ const ResultsModal = (props) => {
                 </Spinner>
               </div>
             </>
+          ) : errors ? (
+            errors === 404 ? (
+              <>Sorry, but we could not find any matching results</>
+            ) : (
+              <>Please, adjust your request, or try again later</>
+            )
           ) : (
             <>
               <div className={modalStyles.FlagContainer}>
