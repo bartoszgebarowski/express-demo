@@ -1,8 +1,34 @@
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/esm/Button";
+import modalStyles from "../styles/ResultsModal.module.css";
+import Spinner from "react-bootstrap/Spinner";
+import spinnerStyles from "../styles/Spinner.module.css";
+import { useEffect } from "react";
 
 const ResultsModal = (props) => {
-  const { show, onClose } = props;
+  const {
+    show,
+    onClose,
+    capital,
+    common_name,
+    flag,
+    flagDescription,
+    official_name,
+    population,
+    timezones,
+    isLoaded,
+    setIsLoaded,
+  } = props;
+
+  useEffect(() => {
+    const handleUnmount = () => {
+      if (!show) {
+        setIsLoaded(false);
+      }
+    };
+    handleUnmount();
+  }, [setIsLoaded, show]);
+
   return (
     <>
       <Modal
@@ -12,10 +38,39 @@ const ResultsModal = (props) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Test modal title</Modal.Title>
+        <Modal.Header className="text-center" closeButton>
+          <Modal.Title className="ms-auto">Search Results</Modal.Title>
         </Modal.Header>
-        <Modal.Body>test</Modal.Body>
+        <Modal.Body>
+          {!isLoaded ? (
+            <>
+              <div className={`${spinnerStyles.SpinnerContainer} text-center`}>
+                <Spinner
+                  animation="border"
+                  role="status"
+                  variant="primary"
+                  style={{ width: "4rem", height: "4rem" }}
+                >
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={modalStyles.FlagContainer}>
+                <img src={flag} alt={flagDescription} />
+              </div>
+              <div className="mt-2">Common Name : {common_name}</div>
+              <div className="mt-2">Official Name: {official_name}</div>
+              <div className="mt-2">Capital: {capital}</div>
+              <div className="mt-2">Population: {population}</div>
+              <div className="mt-2">Time zones: {timezones.join(" ")}</div>
+              <div className="mt-2">
+                Currency name: <span>Currency Symbol</span>
+              </div>
+            </>
+          )}
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="outline-primary" onClick={onClose}>
             Return

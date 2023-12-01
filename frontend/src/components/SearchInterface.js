@@ -11,6 +11,11 @@ import api from "../api/api";
 
 function SearchInterface() {
   const [countryQuery, setCountryQuery] = useState();
+  const [countriesReceivedData, setCountriesReceivedData] = useState([]);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const eventHandler = async (event) => {
     setCountryQuery(event.target.value);
@@ -20,16 +25,14 @@ function SearchInterface() {
     event.preventDefault();
     api
       .get(`${countryQuery}`)
-      .then((response) => console.log(response.data))
+      .then((response) => {
+        console.log(response.data);
+        setCountriesReceivedData(...response.data);
+        setIsLoaded(true);
+      })
       .catch((err) => console.log(err.response.status));
-
     handleShow();
   };
-
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -57,7 +60,13 @@ function SearchInterface() {
           </Col>
         </Row>
       </Container>
-      <ResultsModal show={show} onClose={handleClose} />
+      <ResultsModal
+        show={show}
+        onClose={handleClose}
+        {...countriesReceivedData}
+        isLoaded={isLoaded}
+        setIsLoaded={setIsLoaded}
+      />
     </>
   );
 }
